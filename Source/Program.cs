@@ -1,11 +1,11 @@
 ﻿using System;
-using Reloaded.Hooks.ReloadedII.Interfaces;
+using Reloaded.Hooks.Definitions;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
-using SonicHeroes.Utils.UnlimitedObjectDrawdistance;
-using sonicheroes.utils.unlimitedobjectdrawdistance.Configuration;
+using SonicHeroes.Utils.UnlimitedObjectDrawdistance.Configuration;
+using IReloadedHooks = Reloaded.Hooks.ReloadedII.Interfaces.IReloadedHooks;
 
-namespace sonicheroes.utils.unlimitedobjectdrawdistance
+namespace SonicHeroes.Utils.UnlimitedObjectDrawdistance
 {
     public class Program : IMod
     {
@@ -16,6 +16,7 @@ namespace sonicheroes.utils.unlimitedobjectdrawdistance
         private Configurator _configurator;
         private Config _configuration;
         private IReloadedHooks _hooks;
+        private IReloadedHooksUtilities _utilities;
         private DrawDistanceHook _drawDistanceHook;
 
         public void Start(IModLoaderV1 loader)
@@ -33,25 +34,19 @@ namespace sonicheroes.utils.unlimitedobjectdrawdistance
 
             // Execute mod code.
             _modLoader.GetController<IReloadedHooks>().TryGetTarget(out _hooks);
-            _drawDistanceHook = new DrawDistanceHook(_configuration.DrawDistance, _hooks);
+            _modLoader.GetController<IReloadedHooksUtilities>().TryGetTarget(out _utilities);
+            _drawDistanceHook = new DrawDistanceHook(_configuration, _hooks, _utilities);
         }
 
         private void OnConfigurationUpdated(IConfigurable obj)
         {
-            /*
-                This is executed when the configuration file gets updated by the user
-                at runtime. This allows for mods to be configured in real time.
-
-                Note: Events are also copied, you do not need to re-subscribe.
-            */
-
             // Replace configuration with new.
             _configuration = (Config)obj;
             _logger.WriteLine($"[{ModId}] Config Updated: Applying");
 
             // Apply settings from configuration.
             // ... your code here.
-            _drawDistanceHook.SetDrawDistance(_configuration.DrawDistance);
+            _drawDistanceHook.UpdateConfig(_configuration);
         }
 
         /* Mod loader actions. */

@@ -6,6 +6,15 @@
   "ModDescription": "Allows for all objects in Sonic Heroes to be universally drawn from afar.",
   "ModDll": "sonicheroes.utils.unlimitedobjectdrawdistance.dll",
   "ModIcon": "Preview.png",
-  "ModDependencies": [ "reloaded.sharedlib.hooks" ],
-  "SupportedAppId": [ "tsonic_win.exe" ]
+  "ModR2RManagedDll32": "x86/sonicheroes.utils.unlimitedobjectdrawdistance.dll",
+  "ModR2RManagedDll64": "x64/sonicheroes.utils.unlimitedobjectdrawdistance.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "tsonic_win.exe"
+  ]
 }

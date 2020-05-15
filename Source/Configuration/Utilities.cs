@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 
-namespace sonicheroes.utils.unlimitedobjectdrawdistance.Configuration
+namespace SonicHeroes.Utils.UnlimitedObjectDrawdistance.Configuration
 {
     public class Utilities
     {

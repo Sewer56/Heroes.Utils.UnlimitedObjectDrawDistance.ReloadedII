@@ -3,25 +3,18 @@ using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Reloaded.Messaging.Interfaces;
-using Reloaded.Messaging.Interfaces.Message;
-using Reloaded.Messaging.Serializer.SystemTextJson;
 using Reloaded.Mod.Interfaces;
 
-namespace sonicheroes.utils.unlimitedobjectdrawdistance.Configuration
+namespace SonicHeroes.Utils.UnlimitedObjectDrawdistance.Configuration
 {
-    public class Configurable<TParentType> : IUpdatableConfigurable, ISerializable where TParentType : Configurable<TParentType>, new()
+    public class Configurable<TParentType> : IUpdatableConfigurable where TParentType : Configurable<TParentType>, new()
     {
         // Default Serialization Options
-        // If you wish to change the serializer used, refer to Reloaded.Messaging documentation: https://github.com/Reloaded-Project/Reloaded.Messaging
         public static JsonSerializerOptions SerializerOptions { get; } = new JsonSerializerOptions()
         {
             Converters = { new JsonStringEnumConverter() },
             WriteIndented = true
         };
-
-        public ISerializer GetSerializer() => new SystemTextJsonSerializer(SerializerOptions);
-        public ICompressor GetCompressor() => null;
 
         /* Events */
 
@@ -135,14 +128,15 @@ namespace sonicheroes.utils.unlimitedobjectdrawdistance.Configuration
 
         private void OnSave()
         {
-            File.WriteAllBytes(FilePath, ((TParentType)this).Serialize());
+            var parent = (TParentType)this;
+            File.WriteAllText(FilePath, JsonSerializer.Serialize(parent, SerializerOptions));
         }
 
         /* Utility */
         private static TParentType ReadFrom(string filePath, string configName)
         {
             var result = File.Exists(filePath)
-                ? (TParentType)Serializable.Deserialize<TParentType>(File.ReadAllBytes(filePath))
+                ? JsonSerializer.Deserialize<TParentType>(File.ReadAllBytes(filePath), SerializerOptions)
                 : new TParentType();
             result.Initialize(filePath, configName);
             return result;

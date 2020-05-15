@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Reloaded.Mod.Interfaces;
 
-namespace sonicheroes.utils.unlimitedobjectdrawdistance.Configuration
+namespace SonicHeroes.Utils.UnlimitedObjectDrawdistance.Configuration
 {
     public class Configurator : IConfigurator
     {
