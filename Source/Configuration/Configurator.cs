@@ -29,7 +29,7 @@ namespace SonicHeroes.Utils.UnlimitedObjectDrawdistance.Configuration
             _configurations = new IUpdatableConfigurable[]
             {
                 // Add more configurations here if needed.
-                Configurable<Config>.FromFile(Path.Combine(ConfigFolder, ConfigFileName), "Debug Boot Options")
+                Configurable<Config>.FromFile(Path.Combine(ConfigFolder, ConfigFileName), "Mod Options")
             };
 
             // Add self-updating to configurations.
